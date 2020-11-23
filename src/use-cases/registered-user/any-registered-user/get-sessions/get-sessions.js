@@ -12,6 +12,7 @@ export default function buildGetSessions({ sessionsDb, geoIp }) {
           return {
             ...info,
             ...geoData,
+            active: userToken.reqInfo.id === info.id,
           };
         });
 

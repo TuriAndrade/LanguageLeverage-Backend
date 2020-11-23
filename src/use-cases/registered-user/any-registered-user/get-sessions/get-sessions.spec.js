@@ -26,6 +26,7 @@ describe("get sessions", () => {
           ll: expect.any(Array),
           metro: expect.any(Number),
           area: expect.any(Number),
+          active: expect.any(Boolean),
         })
       );
     });
