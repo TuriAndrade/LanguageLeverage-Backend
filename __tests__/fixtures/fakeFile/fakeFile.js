@@ -8,7 +8,6 @@ export default function buildCreateFakeFile({ randomNumber, randomString }) {
       withNoPath: false,
       key: randomString.generate(10),
       withNoKey: false,
-      toBeDeleted: true,
     };
 
     return {

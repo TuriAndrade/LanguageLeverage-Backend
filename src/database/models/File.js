@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     path: DataTypes.STRING,
     key: DataTypes.STRING,
     name: DataTypes.STRING,
-    toBeDeleted: DataTypes.BOOLEAN,
   });
 
   File.associate = (models) => {

@@ -19,10 +19,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      to_be_deleted: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-      },
       user_id: {
         type: Sequelize.INTEGER,
         references: { model: "users", key: "id" },

@@ -5,7 +5,6 @@ export default function buildCreateFile() {
     name,
     withNoUserId = false,
     key,
-    toBeDeleted = true,
   } = {}) {
     if (!path) {
       throw new Error("Path is required!");
@@ -32,7 +31,6 @@ export default function buildCreateFile() {
       getPath: () => path,
       getUserId: () => userId,
       getName: () => name,
-      getToBeDeleted: () => toBeDeleted,
       setUserId: (newUserId) => {
         if (!newUserId) {
           throw new Error("User id is required!");

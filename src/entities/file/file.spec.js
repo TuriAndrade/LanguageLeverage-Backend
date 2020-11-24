@@ -10,7 +10,6 @@ describe("File", () => {
         getPath: expect.any(Function),
         getName: expect.any(Function),
         getUserId: expect.any(Function),
-        getToBeDeleted: expect.any(Function),
       })
     );
   });

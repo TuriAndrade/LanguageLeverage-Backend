@@ -26,7 +26,6 @@ export default function buildUploadFile({ File, User, createFile }) {
       key: file.getKey(),
       name: file.getName(),
       userId: file.getUserId(),
-      toBeDeleted: file.getToBeDeleted(),
     });
 
     return {

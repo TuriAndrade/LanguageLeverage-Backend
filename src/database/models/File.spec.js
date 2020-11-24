@@ -24,7 +24,6 @@ describe("File database", () => {
       name: file.getName(),
       userId: file.getUserId(),
       key: file.getKey(),
-      toBeDeleted: file.getToBeDeleted(),
     });
 
     expect(createdFile).toBeInstanceOf(File);
@@ -42,7 +41,6 @@ describe("File database", () => {
       name: file.getName(),
       userId: file.getUserId(),
       key: file.getKey(),
-      toBeDeleted: file.getToBeDeleted(),
     });
 
     const update = createFile(
@@ -50,7 +48,6 @@ describe("File database", () => {
         userId,
         path: "/teste2",
         name: "newName",
-        toBeDeleted: false,
       })
     );
 
@@ -58,7 +55,6 @@ describe("File database", () => {
       {
         path: update.getPath(),
         name: update.getName(),
-        toBeDeleted: update.getToBeDeleted(),
       },
       {
         where: {
@@ -84,7 +80,6 @@ describe("File database", () => {
       path: file.getPath(),
       name: file.getName(),
       userId: file.getUserId(),
-      toBeDeleted: file.getToBeDeleted(),
       key: file.getKey(),
     });
 
@@ -107,7 +102,6 @@ describe("File database", () => {
     const createdFile = await File.create({
       path: file.getPath(),
       name: file.getName(),
-      toBeDeleted: file.getToBeDeleted(),
       userId: file.getUserId(),
       key: file.getKey(),
     });
@@ -135,7 +129,6 @@ describe("File database", () => {
       files.map((file) => {
         return File.create({
           path: file.getPath(),
-          toBeDeleted: file.getToBeDeleted(),
           name: file.getName(),
           userId: file.getUserId(),
           key: file.getKey(),

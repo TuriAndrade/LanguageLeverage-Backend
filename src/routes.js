@@ -18,7 +18,6 @@ import { getUserController } from "./use-cases/registered-user/any-registered-us
 import { getSpecificCsrfTokenController } from "./use-cases/registered-user/any-registered-user/get-specific-csrf-token";
 import { loginController } from "./use-cases/registered-user/any-registered-user/login";
 import { logoutController } from "./use-cases/registered-user/any-registered-user/logout";
-import { saveFileController } from "./use-cases/registered-user/any-registered-user/save-file";
 import { updatePasswordController } from "./use-cases/registered-user/any-registered-user/update-password";
 import { updateUserDataController } from "./use-cases/registered-user/any-registered-user/update-user-data";
 import { uploadFileController } from "./use-cases/registered-user/any-registered-user/upload-file";
@@ -137,13 +136,6 @@ routes.delete(
   createExpressCallback(verifyAuthTokenMiddleware),
   createExpressCallback(verifyCsrfTokenMiddleware),
   createExpressCallback(logoutController)
-);
-
-routes.patch(
-  "/save/file/:key",
-  createExpressCallback(verifyAuthTokenMiddleware),
-  createExpressCallback(verifyCsrfTokenMiddleware),
-  createExpressCallback(saveFileController)
 );
 
 routes.patch(
