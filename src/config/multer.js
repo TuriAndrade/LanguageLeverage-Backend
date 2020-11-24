@@ -57,7 +57,9 @@ module.exports = {
       "image/png",
       "image/gif",
       "video/mp4",
+      "video/mpeg",
       "audio/mp3",
+      "audio/mpeg",
     ];
 
     if (allowedMimes.includes(file.mimetype)) {
