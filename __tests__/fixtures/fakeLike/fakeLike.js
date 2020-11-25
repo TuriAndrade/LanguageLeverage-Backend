@@ -3,7 +3,6 @@ export default function buildCreateFakeLike({ randomNumber, faker }) {
     const fakeLike = {
       email: faker.internet.email(),
       articleId: randomNumber.int(1, 10000),
-      date: Date.now(),
     };
 
     return {

@@ -19,10 +19,6 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      date: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       reply_to: {
         type: Sequelize.INTEGER,
         allowNull: true,

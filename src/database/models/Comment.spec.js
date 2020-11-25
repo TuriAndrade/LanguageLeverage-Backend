@@ -23,7 +23,6 @@ describe("Comment database", () => {
       name: comment.getName(),
       email: comment.getEmail(),
       text: comment.getText(),
-      date: comment.getDate(),
       replyTo: comment.getReplyTo(),
       articleId: comment.getArticleId(),
     });
@@ -42,7 +41,6 @@ describe("Comment database", () => {
       name: comment.getName(),
       email: comment.getEmail(),
       text: comment.getText(),
-      date: comment.getDate(),
       replyTo: comment.getReplyTo(),
       articleId: comment.getArticleId(),
     });
@@ -76,7 +74,6 @@ describe("Comment database", () => {
       name: comment.getName(),
       email: comment.getEmail(),
       text: comment.getText(),
-      date: comment.getDate(),
       replyTo: comment.getReplyTo(),
       articleId: comment.getArticleId(),
     });
@@ -101,7 +98,6 @@ describe("Comment database", () => {
       name: comment.getName(),
       email: comment.getEmail(),
       text: comment.getText(),
-      date: comment.getDate(),
       replyTo: comment.getReplyTo(),
       articleId: comment.getArticleId(),
     });
@@ -133,7 +129,6 @@ describe("Comment database", () => {
           name: comment.getName(),
           email: comment.getEmail(),
           text: comment.getText(),
-          date: comment.getDate(),
           replyTo: comment.getReplyTo(),
           articleId: comment.getArticleId(),
         });

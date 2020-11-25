@@ -11,7 +11,6 @@ describe("Comment", () => {
         getEmail: expect.any(Function),
         getReplyTo: expect.any(Function),
         getText: expect.any(Function),
-        getDate: expect.any(Function),
         getArticleId: expect.any(Function),
       })
     );

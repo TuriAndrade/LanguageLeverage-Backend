@@ -52,7 +52,6 @@ export default function buildAddArticle({ Article, Editor, createArticle }) {
       cover: article.getCover(),
       delta: article.getDelta(),
       isPublished: article.getIsPublished(),
-      date: article.getDate(),
       isAdmissionArticle: article.getIsAdmissionArticle(),
       editorId: article.getEditorId(),
     });

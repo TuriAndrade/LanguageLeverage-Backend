@@ -95,7 +95,6 @@ export async function insertArticles() {
         cover: article.getCover(),
         delta: article.getDelta(),
         html: article.getHtml(),
-        date: article.getDate(),
         isAdmissionArticle: article.getIsAdmissionArticle(),
         isPublished: article.getIsPublished(),
         editorId: article.getEditorId(),

@@ -4,7 +4,6 @@ export default function buildCreateArticle() {
     html,
     cover,
     delta,
-    date = Date.now(),
     isPublished = false,
     isAdmissionArticle = false,
     editorId,
@@ -22,10 +21,6 @@ export default function buildCreateArticle() {
 
     if (!delta) {
       throw new Error("Delta is required!");
-    }
-
-    if (!date) {
-      throw new Error("Date is required!");
     }
 
     if (!cover) {
@@ -58,7 +53,6 @@ export default function buildCreateArticle() {
         withNoEditorId = false;
         editorId = newEditorId;
       },
-      getDate: () => date,
       publish: () => {
         isPublished = true;
       },

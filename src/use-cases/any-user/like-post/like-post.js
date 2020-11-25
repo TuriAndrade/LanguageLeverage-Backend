@@ -29,7 +29,6 @@ export default function buildLikePost({ Article, Like, createLike }) {
     const createdLike = await Like.create({
       email: like.getEmail(),
       articleId: like.getArticleId(),
-      date: like.getDate(),
     });
 
     return {

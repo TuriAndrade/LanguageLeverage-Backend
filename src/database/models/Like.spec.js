@@ -22,7 +22,6 @@ describe("Like database", () => {
     const createdLike = await Like.create({
       email: like.getEmail(),
       articleId: like.getArticleId(),
-      date: like.getDate(),
     });
 
     expect(createdLike).toBeInstanceOf(Like);
@@ -38,7 +37,6 @@ describe("Like database", () => {
     const createdLike = await Like.create({
       email: like.getEmail(),
       articleId: like.getArticleId(),
-      date: like.getDate(),
     });
 
     const update = createLike(createFakeLike({ articleId }));
@@ -69,7 +67,6 @@ describe("Like database", () => {
     const createdLike = await Like.create({
       email: like.getEmail(),
       articleId: like.getArticleId(),
-      date: like.getDate(),
     });
 
     const numberOfDestroyedLikes = await Like.destroy({
@@ -91,7 +88,6 @@ describe("Like database", () => {
     const createdLike = await Like.create({
       email: like.getEmail(),
       articleId: like.getArticleId(),
-      date: like.getDate(),
     });
 
     const findOne = await Like.findOne({
@@ -118,7 +114,6 @@ describe("Like database", () => {
         return Like.create({
           email: like.getEmail(),
           articleId: like.getArticleId(),
-          date: like.getDate(),
         });
       })
     );

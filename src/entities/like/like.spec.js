@@ -9,7 +9,6 @@ describe("Like", () => {
       expect.objectContaining({
         getEmail: expect.any(Function),
         getArticleId: expect.any(Function),
-        getDate: expect.any(Function),
       })
     );
   });

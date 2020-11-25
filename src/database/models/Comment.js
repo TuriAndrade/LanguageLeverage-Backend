@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     text: DataTypes.TEXT,
-    date: DataTypes.DATE,
     replyTo: DataTypes.INTEGER,
   });
 

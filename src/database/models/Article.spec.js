@@ -22,7 +22,6 @@ describe("Article database", () => {
     const createdArticle = await Article.create({
       title: article.getTitle(),
       html: article.getHtml(),
-      date: article.getDate(),
       delta: article.getDelta(),
       isPublished: article.getIsPublished(),
       isAdmissionArticle: article.getIsAdmissionArticle(),
@@ -45,7 +44,6 @@ describe("Article database", () => {
     const createdArticle = await Article.create({
       title: article.getTitle(),
       html: article.getHtml(),
-      date: article.getDate(),
       delta: article.getDelta(),
       isPublished: article.getIsPublished(),
       isAdmissionArticle: article.getIsAdmissionArticle(),
@@ -90,7 +88,6 @@ describe("Article database", () => {
       title: article.getTitle(),
       html: article.getHtml(),
       delta: article.getDelta(),
-      date: article.getDate(),
       cover: article.getCover(),
       isAdmissionArticle: article.getIsAdmissionArticle(),
       isPublished: article.getIsPublished(),
@@ -116,7 +113,6 @@ describe("Article database", () => {
     const createdArticle = await Article.create({
       title: article.getTitle(),
       html: article.getHtml(),
-      date: article.getDate(),
       delta: article.getDelta(),
       cover: article.getCover(),
       isAdmissionArticle: article.getIsAdmissionArticle(),
@@ -150,7 +146,6 @@ describe("Article database", () => {
         return Article.create({
           title: article.getTitle(),
           html: article.getHtml(),
-          date: article.getDate(),
           delta: article.getDelta(),
           cover: article.getCover(),
           isAdmissionArticle: article.getIsAdmissionArticle(),

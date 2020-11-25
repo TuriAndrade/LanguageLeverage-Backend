@@ -6,7 +6,6 @@ export default function buildCreateFakeArticle({ randomNumber, randomString }) {
       editorId: randomNumber.int(1, 100),
       isPublished: false,
       isAdmissionArticle: false,
-      date: Date.now(),
       withNoEditorId: false,
       html: `<p>${randomString.generate(200)}</p>`,
       delta: {

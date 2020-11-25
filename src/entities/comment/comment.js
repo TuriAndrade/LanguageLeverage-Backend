@@ -3,7 +3,6 @@ export default function buildCreateComment({ isValidEmail }) {
     name,
     email,
     text,
-    date = Date.now(),
     replyTo = null,
     articleId,
   } = {}) {
@@ -11,10 +10,6 @@ export default function buildCreateComment({ isValidEmail }) {
       throw new Error("Name is required!");
     } else if (name.length > 50) {
       throw new Error("Name must have at most 50 characters!");
-    }
-
-    if (!date) {
-      throw new Error("Date is required!");
     }
 
     if (!text) {
@@ -44,7 +39,6 @@ export default function buildCreateComment({ isValidEmail }) {
       getReplyTo: () => replyTo,
       getEmail: () => email,
       getText: () => text,
-      getDate: () => date,
       getArticleId: () => articleId,
     });
   };

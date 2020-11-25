@@ -66,7 +66,6 @@ export default function buildAddAdmissionArticle({
       cover: article.getCover(),
       delta: article.getDelta(),
       isPublished: article.getIsPublished(),
-      date: article.getDate(),
       isAdmissionArticle: article.getIsAdmissionArticle(),
       editorId: article.getEditorId(),
     });

@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     cover: DataTypes.STRING,
     isPublished: DataTypes.BOOLEAN,
     isAdmissionArticle: DataTypes.BOOLEAN,
-    date: DataTypes.DATE,
     delta: DataTypes.JSON,
   });
 

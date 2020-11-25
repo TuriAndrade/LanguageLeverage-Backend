@@ -13,7 +13,6 @@ describe("Article", () => {
         getIsPublished: expect.any(Function),
         getIsAdmissionArticle: expect.any(Function),
         getEditorId: expect.any(Function),
-        getDate: expect.any(Function),
       })
     );
   });

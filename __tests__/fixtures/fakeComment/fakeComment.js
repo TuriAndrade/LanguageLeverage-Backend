@@ -8,7 +8,6 @@ export default function buildCreateFakeComment({
       name: faker.name.findName(),
       email: faker.internet.email(),
       text: randomString.generate(10),
-      date: Date.now(),
       replyTo: null,
       articleId: randomNumber.int(1, 10000),
     };
