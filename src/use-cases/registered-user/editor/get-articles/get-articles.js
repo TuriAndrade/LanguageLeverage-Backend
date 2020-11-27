@@ -1,4 +1,4 @@
-export default function buildGetArticles({ Editor, Article }) {
+export default function buildGetArticles({ Editor, Article, Subject }) {
   return async function getArticles({ userToken }) {
     if (!userToken) {
       throw new Error("User token required!");
@@ -20,6 +20,17 @@ export default function buildGetArticles({ Editor, Article }) {
       },
     });
 
-    return { articles };
+    return Promise.all(
+      articles.map((article) => {
+        return Subject.findAll({
+          where: {
+            articleId: article.id,
+          },
+        }).then((subjects) => ({
+          article,
+          subjects,
+        }));
+      })
+    );
   };
 }

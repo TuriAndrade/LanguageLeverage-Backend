@@ -1,10 +1,10 @@
-export default function buildAddSubjects({
+export default function buildAddSubject({
   Article,
   Subject,
   Editor,
   createSubject,
 }) {
-  return async function addSubjects({ userToken, articleId, subject }) {
+  return async function addSubject({ userToken, articleId, subject }) {
     if (!userToken) {
       throw new Error("User token required!");
     }

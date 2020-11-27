@@ -38,6 +38,7 @@ import { publishArticleController } from "./use-cases/registered-user/editor/pub
 import { unpublishArticleController } from "./use-cases/registered-user/editor/unpublish-article";
 import { updateArticleController } from "./use-cases/registered-user/editor/update-article";
 import { updateDescriptionController } from "./use-cases/registered-user/editor/update-description";
+import { updateSubjectsController } from "./use-cases/registered-user/editor/update-subjects";
 
 // MIDDLEWARES
 import { verifyAuthTokenMiddleware } from "./middlewares/verify-auth-token";
@@ -193,6 +194,13 @@ routes.post(
   createExpressCallback(verifyAuthTokenMiddleware),
   createExpressCallback(verifyCsrfTokenMiddleware),
   createExpressCallback(addSubjectController)
+);
+
+routes.patch(
+  "/subjects",
+  createExpressCallback(verifyAuthTokenMiddleware),
+  createExpressCallback(verifyCsrfTokenMiddleware),
+  createExpressCallback(updateSubjectsController)
 );
 
 routes.delete(

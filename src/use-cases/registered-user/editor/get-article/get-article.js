@@ -1,4 +1,4 @@
-export default function buildGetArticle({ Editor, Article }) {
+export default function buildGetArticle({ Editor, Article, Subject }) {
   return async function getArticle({ userToken, articleId }) {
     if (!userToken) {
       throw new Error("User token required!");
@@ -25,6 +25,13 @@ export default function buildGetArticle({ Editor, Article }) {
       throw new Error("No article found with this id and editor id!");
     }
 
-    return { article };
+    return Subject.findAll({
+      where: {
+        articleId: article.id,
+      },
+    }).then((subjects) => ({
+      article,
+      subjects,
+    }));
   };
 }
