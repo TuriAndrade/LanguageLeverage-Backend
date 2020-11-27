@@ -3,7 +3,8 @@ export default function buildUnpublishArticleController({ unpublishArticle }) {
     try {
       const { articleId } = httpRequest.params;
       const { userToken } = httpRequest;
-      await unpublishArticle({ articleId, userToken });
+      const unpublishInfo = httpRequest.body;
+      await unpublishArticle({ ...unpublishInfo, articleId, userToken });
       return {
         headers: {
           "Content-Type": "application/json",
