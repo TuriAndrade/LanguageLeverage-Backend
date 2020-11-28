@@ -21,7 +21,7 @@ export default function buildUpdateSubjects({
     });
 
     if (!isValidated) {
-      throw new Error("No editor found with this id!");
+      throw new Error("No validated editor found with this id!");
     }
 
     const article = await Article.findOne({
