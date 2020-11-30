@@ -23,8 +23,16 @@ import { updateUserDataController } from "./use-cases/registered-user/any-regist
 import { uploadFileController } from "./use-cases/registered-user/any-registered-user/upload-file";
 
 // ADMIN CONTROLLERS
-import { validateEditorController } from "./use-cases/registered-user/admin/validate-editor";
+import { deleteAnyArticleController } from "./use-cases/registered-user/admin/delete-any-article";
+import { deleteUserController } from "./use-cases/registered-user/admin/delete-user";
+import { getAdminsController } from "./use-cases/registered-user/admin/get-admins";
+import { getAllArticlesController } from "./use-cases/registered-user/admin/get-all-articles";
+import { getAnyArticleController } from "./use-cases/registered-user/admin/get-any-article";
+import { getEditorArticlesController } from "./use-cases/registered-user/admin/get-editor-articles";
+import { getEditorsController } from "./use-cases/registered-user/admin/get-editors";
 import { invalidateEditorController } from "./use-cases/registered-user/admin/invalidate-editor";
+import { validateEditorController } from "./use-cases/registered-user/admin/validate-editor";
+import { unpublishAnyArticleController } from "./use-cases/registered-user/admin/unpublish-any-article";
 
 // EDITOR CONTROLLERS
 import { addAdmissionArticleController } from "./use-cases/registered-user/editor/add-admission-article";
@@ -161,6 +169,57 @@ routes.post(
   createExpressCallback(uploadFileController)
 );
 
+routes.delete(
+  "/any/article/:articleId",
+  createExpressCallback(verifyAuthTokenMiddleware),
+  createExpressCallback(verifyCsrfTokenMiddleware),
+  createExpressCallback(deleteAnyArticleController)
+);
+
+routes.delete(
+  "/any/user/:userId",
+  createExpressCallback(verifyAuthTokenMiddleware),
+  createExpressCallback(verifyCsrfTokenMiddleware),
+  createExpressCallback(deleteUserController)
+);
+
+routes.get(
+  "/admins",
+  createExpressCallback(verifyAuthTokenMiddleware),
+  createExpressCallback(getAdminsController)
+);
+
+routes.get(
+  "/all/articles",
+  createExpressCallback(verifyAuthTokenMiddleware),
+  createExpressCallback(getAllArticlesController)
+);
+
+routes.get(
+  "/any/article/:articleId",
+  createExpressCallback(verifyAuthTokenMiddleware),
+  createExpressCallback(getAnyArticleController)
+);
+
+routes.get(
+  "/editor/articles/:editorId",
+  createExpressCallback(verifyAuthTokenMiddleware),
+  createExpressCallback(getEditorArticlesController)
+);
+
+routes.get(
+  "/editors",
+  createExpressCallback(verifyAuthTokenMiddleware),
+  createExpressCallback(getEditorsController)
+);
+
+routes.patch(
+  "/invalidate/editor/:editorId",
+  createExpressCallback(verifyAuthTokenMiddleware),
+  createExpressCallback(verifyCsrfTokenMiddleware),
+  createExpressCallback(invalidateEditorController)
+);
+
 routes.patch(
   "/validate/editor/:editorId",
   createExpressCallback(verifyAuthTokenMiddleware),
@@ -169,10 +228,10 @@ routes.patch(
 );
 
 routes.patch(
-  "/invalidate/editor/:editorId",
+  "/unpublish/any/article/:articleId",
   createExpressCallback(verifyAuthTokenMiddleware),
   createExpressCallback(verifyCsrfTokenMiddleware),
-  createExpressCallback(invalidateEditorController)
+  createExpressCallback(unpublishAnyArticleController)
 );
 
 routes.post(
