@@ -19,19 +19,13 @@ export default function buildGetArticle({ Editor, Article, Subject }) {
         editorId: userToken.editorId,
         id: articleId,
       },
+      include: Subject,
     });
 
     if (!article) {
       throw new Error("No article found with this id and editor id!");
     }
 
-    return Subject.findAll({
-      where: {
-        articleId: article.id,
-      },
-    }).then((subjects) => ({
-      article,
-      subjects,
-    }));
+    return { article };
   };
 }

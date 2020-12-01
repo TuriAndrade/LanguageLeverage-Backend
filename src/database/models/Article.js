@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     Article.belongsTo(models.Editor, {
       foreignKey: "editorId",
     });
+    Article.hasMany(models.Comment);
+    Article.hasMany(models.Like);
+    Article.hasMany(models.Subject);
   };
 
   return Article;

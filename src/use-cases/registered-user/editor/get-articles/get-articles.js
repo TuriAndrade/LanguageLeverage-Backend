@@ -18,19 +18,9 @@ export default function buildGetArticles({ Editor, Article, Subject }) {
       where: {
         editorId: userToken.editorId,
       },
+      include: Subject,
     });
 
-    return Promise.all(
-      articles.map((article) => {
-        return Subject.findAll({
-          where: {
-            articleId: article.id,
-          },
-        }).then((subjects) => ({
-          article,
-          subjects,
-        }));
-      })
-    );
+    return { articles };
   };
 }

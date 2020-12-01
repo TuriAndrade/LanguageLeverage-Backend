@@ -27,5 +27,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  User.associate = (models) => {
+    User.hasOne(models.Admin);
+    User.hasOne(models.Editor);
+    User.hasMany(models.File);
+  };
+
   return User;
 };

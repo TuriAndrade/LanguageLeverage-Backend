@@ -14,19 +14,10 @@ export default function buildGetAllArticles({ Admin, Article, Subject }) {
       throw new Error("No admin found with this id!");
     }
 
-    const articles = await Article.findAll();
+    const articles = await Article.findAll({
+      include: Subject,
+    });
 
-    return Promise.all(
-      articles.map((article) => {
-        return Subject.findAll({
-          where: {
-            articleId: article.id,
-          },
-        }).then((subjects) => ({
-          article,
-          subjects,
-        }));
-      })
-    );
+    return { articles };
   };
 }

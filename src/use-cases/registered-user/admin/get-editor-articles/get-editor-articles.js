@@ -35,21 +35,11 @@ export default function buildGetEditorArticles({
 
     const articles = await Article.findAll({
       where: {
-        editorId: editorId,
+        editorId,
       },
+      include: Subject,
     });
 
-    return Promise.all(
-      articles.map((article) => {
-        return Subject.findAll({
-          where: {
-            articleId: article.id,
-          },
-        }).then((subjects) => ({
-          article,
-          subjects,
-        }));
-      })
-    );
+    return { articles };
   };
 }

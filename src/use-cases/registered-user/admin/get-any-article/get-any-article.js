@@ -18,19 +18,13 @@ export default function buildGetAnyArticle({ Admin, Article, Subject }) {
       where: {
         id: articleId,
       },
+      include: Subject,
     });
 
     if (!article) {
       throw new Error("No article found with this id!");
     }
 
-    return Subject.findAll({
-      where: {
-        articleId: article.id,
-      },
-    }).then((subjects) => ({
-      article,
-      subjects,
-    }));
+    return { article };
   };
 }

@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Editor.associate = (models) => {
     Editor.belongsTo(models.User, { foreignKey: "userId" });
+    Editor.hasMany(models.Article);
   };
 
   return Editor;
