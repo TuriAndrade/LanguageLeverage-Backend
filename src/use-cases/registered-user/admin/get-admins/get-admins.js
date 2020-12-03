@@ -17,7 +17,7 @@ export default function buildGetAdmins({ User, Admin }) {
 
     const admins = await Admin.findAll();
 
-    return Promise.all(
+    const handledAdmins = await Promise.all(
       admins.map((admin) => {
         return User.findOne({
           where: {
@@ -38,5 +38,7 @@ export default function buildGetAdmins({ User, Admin }) {
         });
       })
     );
+
+    return { admins: handledAdmins };
   };
 }
