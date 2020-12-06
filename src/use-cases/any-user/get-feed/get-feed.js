@@ -1,4 +1,12 @@
-export default function buildGetFeed({ Article, Subject, Editor, User, Op }) {
+export default function buildGetFeed({
+  Article,
+  Subject,
+  Editor,
+  User,
+  Like,
+  Comment,
+  Op,
+}) {
   return async function getFeed({ subjects, offset }) {
     if (subjects && !Array.isArray(subjects)) {
       throw new Error("Invalid type for subjects!");
@@ -32,7 +40,15 @@ export default function buildGetFeed({ Article, Subject, Editor, User, Op }) {
             where: {
               id: article.id,
             },
-            include: Subject,
+            include: [
+              { model: Subject },
+              { model: Like },
+              { model: Comment, order: [["createdAt", "ASC"]] },
+              {
+                model: Editor,
+                include: { model: User, attributes: ["picture", "login"] },
+              },
+            ],
           });
         })
       );
@@ -63,6 +79,8 @@ export default function buildGetFeed({ Article, Subject, Editor, User, Op }) {
             },
             include: [
               { model: Subject },
+              { model: Like },
+              { model: Comment, order: [["createdAt", "ASC"]] },
               {
                 model: Editor,
                 include: { model: User, attributes: ["picture", "login"] },
