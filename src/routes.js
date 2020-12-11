@@ -6,6 +6,7 @@ import { commentOnPostController } from "./use-cases/any-user/comment-on-post";
 import { createAccountController } from "./use-cases/any-user/create-account";
 import { getFeedController } from "./use-cases/any-user/get-feed";
 import { getGenericCsrfTokenController } from "./use-cases/any-user/get-generic-csrf-token";
+import { getSubjectsController } from "./use-cases/any-user/get-subjects";
 import { likePostController } from "./use-cases/any-user/like-post";
 import { subscribeToNewsletterController } from "./use-cases/any-user/subscribe-to-newsletter";
 
@@ -50,7 +51,10 @@ import { updateDescriptionController } from "./use-cases/registered-user/editor/
 import { updateSubjectsController } from "./use-cases/registered-user/editor/update-subjects";
 
 // MIDDLEWARES
-import { verifyAuthTokenMiddleware } from "./middlewares/verify-auth-token";
+import {
+  verifyAuthTokenMiddleware,
+  verifyOptionalAuthTokenMiddleware,
+} from "./middlewares/verify-auth-token";
 import { verifyCsrfTokenMiddleware } from "./middlewares/verify-csrf-token";
 
 const express = require("express");
@@ -63,6 +67,7 @@ const routes = express.Router();
 
 routes.post(
   "/comment",
+  createExpressCallback(verifyOptionalAuthTokenMiddleware),
   createExpressCallback(verifyCsrfTokenMiddleware),
   createExpressCallback(commentOnPostController)
 );
@@ -73,15 +78,22 @@ routes.post(
   createExpressCallback(createAccountController)
 );
 
-routes.post("/get/feed", createExpressCallback(getFeedController));
+routes.post(
+  "/get/feed",
+  createExpressCallback(verifyOptionalAuthTokenMiddleware),
+  createExpressCallback(getFeedController)
+);
 
 routes.get(
   "/generic/csrf/token",
   createExpressCallback(getGenericCsrfTokenController)
 );
 
+routes.post("/get/subjects", createExpressCallback(getSubjectsController));
+
 routes.post(
   "/like",
+  createExpressCallback(verifyOptionalAuthTokenMiddleware),
   createExpressCallback(verifyCsrfTokenMiddleware),
   createExpressCallback(likePostController)
 );

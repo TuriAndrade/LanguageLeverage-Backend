@@ -20,7 +20,7 @@ describe("comment on post  test", () => {
 
     await expect(commentOnPost(comment)).resolves.toEqual(
       expect.objectContaining({
-        commentId: expect.any(Number),
+        comment: expect.any(Object),
       })
     );
   });

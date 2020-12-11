@@ -36,7 +36,7 @@ describe("like on post controller test", () => {
         },
         statusCode: 200,
         body: {
-          likeId: expect.any(Number),
+          like: expect.any(Object),
         },
       })
     );

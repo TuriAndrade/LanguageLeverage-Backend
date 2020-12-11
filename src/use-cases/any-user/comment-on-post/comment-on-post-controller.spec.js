@@ -36,7 +36,7 @@ describe("comment on post controller test", () => {
         },
         statusCode: 200,
         body: {
-          commentId: expect.any(Number),
+          comment: expect.any(Object),
         },
       })
     );

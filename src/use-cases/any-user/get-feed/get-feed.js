@@ -5,9 +5,15 @@ export default function buildGetFeed({
   User,
   Like,
   Comment,
-  Op,
+  sequelize,
 }) {
-  return async function getFeed({ subjects, offset }) {
+  return async function getFeed({
+    subjects,
+    offset = 0,
+    limit = 15,
+    userToken,
+    email,
+  }) {
     if (subjects && !Array.isArray(subjects)) {
       throw new Error("Invalid type for subjects!");
     }
@@ -16,81 +22,112 @@ export default function buildGetFeed({
       throw new Error("Invalid type for offset!");
     }
 
-    if (subjects) {
-      const filteredArticles = await Article.findAll({
-        attributes: ["id"],
-        order: [["createdAt", "DESC"]],
-        offset,
-        limit: 2,
-        subQuery: false, // limit and offset only work with sequelize include if subQuery is set to false
-        where: {
-          isPublished: true,
-        },
-        include: {
-          model: Subject,
-          where: {
-            [Op.or]: subjects.map((subject) => ({ subject })),
-          },
-        },
-      });
-
-      const articles = await Promise.all(
-        filteredArticles.map((article) => {
-          return Article.findOne({
-            where: {
-              id: article.id,
-            },
-            include: [
-              { model: Subject },
-              { model: Like },
-              { model: Comment, order: [["createdAt", "ASC"]] },
-              {
-                model: Editor,
-                include: { model: User, attributes: ["picture", "login"] },
-              },
-            ],
-          });
-        })
-      );
-
-      return { articles };
-    } else {
-      const filteredArticles = await Article.findAll({
-        attributes: ["id"],
-        order: [["createdAt", "DESC"]],
-        offset,
-        limit: 2,
-        subQuery: false,
-        where: {
-          isPublished: true,
-        },
-      });
-
-      /* 
-        using limit with joins doesn't work properly, specially when the result of the join is an array,
-        because some of the results may be chopped, so I separated the queries
-      */
-
-      const articles = await Promise.all(
-        filteredArticles.map((article) => {
-          return Article.findOne({
-            where: {
-              id: article.id,
-            },
-            include: [
-              { model: Subject },
-              { model: Like },
-              { model: Comment, order: [["createdAt", "ASC"]] },
-              {
-                model: Editor,
-                include: { model: User, attributes: ["picture", "login"] },
-              },
-            ],
-          });
-        })
-      );
-
-      return { articles };
+    if (offset && typeof limit !== "number") {
+      throw new Error("Invalid type for limit!");
     }
+
+    let user = null;
+
+    if (userToken) {
+      user = await User.findOne({
+        where: {
+          id: userToken.userId,
+        },
+      });
+
+      if (!user) {
+        throw new Error("No user found with this id!");
+      }
+    }
+
+    let filteredArticles, rowsInfo;
+
+    if (subjects && subjects.length > 0) {
+      [filteredArticles, rowsInfo] = await sequelize.query(
+        "SELECT DISTINCT articles.id, articles.created_at FROM articles JOIN subjects ON articles.id = subjects.article_id WHERE articles.is_published = TRUE AND subjects.subject IN(:subjects) ORDER BY articles.created_at DESC LIMIT :limit OFFSET :offset",
+        {
+          replacements: { subjects, limit, offset },
+        }
+      );
+    } else {
+      [filteredArticles, rowsInfo] = await sequelize.query(
+        "SELECT articles.id FROM articles WHERE is_published = TRUE ORDER BY created_at DESC LIMIT :limit OFFSET :offset",
+        {
+          replacements: { limit, offset },
+        }
+      );
+    }
+
+    /*
+      Limit does't work well with sequelize includes, so I'm using raw queries
+    */
+
+    const articles = await Promise.all(
+      filteredArticles.map((article) => {
+        return Article.findOne({
+          where: {
+            id: article.id,
+          },
+          include: [
+            { model: Subject },
+            { model: Like },
+            {
+              model: Editor,
+              include: { model: User, attributes: ["picture", "login"] },
+            },
+          ],
+        }).then((article) => {
+          if (!user && !email) {
+            return {
+              ...article.dataValues,
+              isLiked: false,
+            };
+          } else {
+            return Like.findOne({
+              where: {
+                articleId: article.id,
+                email: user && user.email ? user.email : email,
+              },
+            }).then((like) => {
+              return {
+                ...article.dataValues,
+                isLiked: !!like,
+              };
+            });
+          }
+        });
+      })
+    );
+
+    const articlesWithComments = await Promise.all(
+      articles.map((article) => {
+        return Comment.findAll({
+          order: [["createdAt", "ASC"]],
+          where: {
+            articleId: article.id,
+            replyTo: null,
+          },
+        }).then((comments) => {
+          return Promise.all(
+            comments.map((comment) => {
+              return Comment.findAll({
+                order: [["createdAt", "ASC"]],
+                where: {
+                  replyTo: comment.id,
+                },
+              }).then((replies) => ({
+                ...comment.dataValues,
+                replies,
+              }));
+            })
+          ).then((commentsWithReplies) => ({
+            ...article,
+            Comments: commentsWithReplies,
+          }));
+        });
+      })
+    );
+
+    return { articles: articlesWithComments };
   };
 }

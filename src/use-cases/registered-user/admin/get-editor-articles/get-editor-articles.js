@@ -34,6 +34,7 @@ export default function buildGetEditorArticles({
     }
 
     const articles = await Article.findAll({
+      order: [["createdAt", "DESC"]],
       where: {
         editorId,
       },

@@ -20,7 +20,7 @@ describe("like on post  test", () => {
 
     await expect(likePost(like)).resolves.toEqual(
       expect.objectContaining({
-        likeId: expect.any(Number),
+        like: expect.any(Object),
       })
     );
   });

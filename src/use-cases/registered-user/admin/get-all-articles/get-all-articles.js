@@ -15,6 +15,7 @@ export default function buildGetAllArticles({ Admin, Article, Subject }) {
     }
 
     const articles = await Article.findAll({
+      order: [["createdAt", "DESC"]],
       include: Subject,
     });
 

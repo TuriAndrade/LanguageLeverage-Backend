@@ -9,6 +9,7 @@ describe("Comment", () => {
       expect.objectContaining({
         getName: expect.any(Function),
         getEmail: expect.any(Function),
+        getUserType: expect.any(Function),
         getReplyTo: expect.any(Function),
         getText: expect.any(Function),
         getArticleId: expect.any(Function),

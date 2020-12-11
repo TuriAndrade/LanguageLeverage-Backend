@@ -2,7 +2,9 @@ export default function buildLikePostController({ likePost }) {
   return async function likePostController(httpRequest) {
     try {
       const likeInfo = httpRequest.body;
+      const { userToken } = httpRequest;
       const likeResult = await likePost({
+        userToken,
         ...likeInfo,
       });
       return {

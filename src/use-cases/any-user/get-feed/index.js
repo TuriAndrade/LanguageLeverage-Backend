@@ -8,7 +8,10 @@ import {
   Like,
   Comment,
 } from "../../../database/models";
-import { Op } from "sequelize";
+import Sequelize from "sequelize";
+import config from "../../../config/database";
+
+const sequelize = new Sequelize(config);
 
 const getFeed = buildGetFeed({
   Article,
@@ -17,7 +20,7 @@ const getFeed = buildGetFeed({
   User,
   Like,
   Comment,
-  Op,
+  sequelize,
 });
 const getFeedController = buildGetFeedController({ getFeed });
 

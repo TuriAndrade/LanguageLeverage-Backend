@@ -22,6 +22,7 @@ describe("Comment database", () => {
     const createdComment = await Comment.create({
       name: comment.getName(),
       email: comment.getEmail(),
+      userType: comment.getUserType(),
       text: comment.getText(),
       replyTo: comment.getReplyTo(),
       articleId: comment.getArticleId(),
@@ -41,6 +42,7 @@ describe("Comment database", () => {
       name: comment.getName(),
       email: comment.getEmail(),
       text: comment.getText(),
+      userType: comment.getUserType(),
       replyTo: comment.getReplyTo(),
       articleId: comment.getArticleId(),
     });
@@ -74,6 +76,7 @@ describe("Comment database", () => {
       name: comment.getName(),
       email: comment.getEmail(),
       text: comment.getText(),
+      userType: comment.getUserType(),
       replyTo: comment.getReplyTo(),
       articleId: comment.getArticleId(),
     });
@@ -97,6 +100,7 @@ describe("Comment database", () => {
     const createdComment = await Comment.create({
       name: comment.getName(),
       email: comment.getEmail(),
+      userType: comment.getUserType(),
       text: comment.getText(),
       replyTo: comment.getReplyTo(),
       articleId: comment.getArticleId(),
@@ -129,6 +133,7 @@ describe("Comment database", () => {
           name: comment.getName(),
           email: comment.getEmail(),
           text: comment.getText(),
+          userType: comment.getUserType(),
           replyTo: comment.getReplyTo(),
           articleId: comment.getArticleId(),
         });

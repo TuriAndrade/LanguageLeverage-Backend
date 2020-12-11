@@ -1,18 +1,14 @@
-export default function buildGetFeedController({ getFeed }) {
-  return async function getFeedController(httpRequest) {
+export default function buildGetSubjectsController({ getSubjects }) {
+  return async function getSubjectsController(httpRequest) {
     try {
-      const feedInfo = httpRequest.body;
-      const { userToken } = httpRequest.body;
-      const feed = await getFeed({
-        userToken,
-        ...feedInfo,
-      });
+      const subjectsInfo = httpRequest.body;
+      const subjects = await getSubjects({ ...subjectsInfo });
       return {
         headers: {
           "Content-Type": "application/json",
         },
         statusCode: 200,
-        body: feed,
+        body: subjects,
       };
     } catch (error) {
       return {

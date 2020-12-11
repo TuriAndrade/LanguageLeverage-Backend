@@ -5,6 +5,7 @@ export default function buildCreateComment({ isValidEmail }) {
     text,
     replyTo = null,
     articleId,
+    userType = null,
   } = {}) {
     if (!name) {
       throw new Error("Name is required!");
@@ -36,6 +37,7 @@ export default function buildCreateComment({ isValidEmail }) {
 
     return Object.freeze({
       getName: () => name,
+      getUserType: () => userType,
       getReplyTo: () => replyTo,
       getEmail: () => email,
       getText: () => text,

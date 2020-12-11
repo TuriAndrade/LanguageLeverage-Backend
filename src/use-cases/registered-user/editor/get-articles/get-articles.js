@@ -15,6 +15,7 @@ export default function buildGetArticles({ Editor, Article, Subject }) {
     }
 
     const articles = await Article.findAll({
+      order: [["createdAt", "DESC"]],
       where: {
         editorId: userToken.editorId,
       },
