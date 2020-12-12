@@ -1,4 +1,4 @@
-export default function buildGetArticle({ Editor, Article, Subject }) {
+export default function buildGetArticle({ Editor, Article, Subject, User }) {
   return async function getArticle({ userToken, articleId }) {
     if (!userToken) {
       throw new Error("User token required!");
@@ -19,7 +19,13 @@ export default function buildGetArticle({ Editor, Article, Subject }) {
         editorId: userToken.editorId,
         id: articleId,
       },
-      include: Subject,
+      include: [
+        { model: Subject },
+        {
+          model: Editor,
+          include: { model: User, attributes: ["picture", "login"] },
+        },
+      ],
     });
 
     if (!article) {

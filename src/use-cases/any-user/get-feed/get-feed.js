@@ -10,7 +10,7 @@ export default function buildGetFeed({
   return async function getFeed({
     subjects,
     offset = 0,
-    limit = 15,
+    limit = 10,
     userToken,
     email,
   }) {
@@ -77,16 +77,11 @@ export default function buildGetFeed({
             },
           ],
         }).then((article) => {
-          if (!user && !email) {
-            return {
-              ...article.dataValues,
-              isLiked: false,
-            };
-          } else {
+          if (userToken) {
             return Like.findOne({
               where: {
                 articleId: article.id,
-                email: user && user.email ? user.email : email,
+                email: user.email,
               },
             }).then((like) => {
               return {
@@ -94,6 +89,23 @@ export default function buildGetFeed({
                 isLiked: !!like,
               };
             });
+          } else if (email) {
+            return Like.findOne({
+              where: {
+                articleId: article.id,
+                email: email,
+              },
+            }).then((like) => {
+              return {
+                ...article.dataValues,
+                isLiked: !!like,
+              };
+            });
+          } else {
+            return {
+              ...article.dataValues,
+              isLiked: false,
+            };
           }
         });
       })

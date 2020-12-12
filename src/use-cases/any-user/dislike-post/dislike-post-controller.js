@@ -1,18 +1,18 @@
-export default function buildGetFeedController({ getFeed }) {
-  return async function getFeedController(httpRequest) {
+export default function buildDislikePostController({ dislikePost }) {
+  return async function dislikePostController(httpRequest) {
     try {
-      const feedInfo = httpRequest.body;
+      const dislikeInfo = httpRequest.body;
       const { userToken } = httpRequest;
-      const feed = await getFeed({
+      const dislikeResult = await dislikePost({
         userToken,
-        ...feedInfo,
+        ...dislikeInfo,
       });
       return {
         headers: {
           "Content-Type": "application/json",
         },
         statusCode: 200,
-        body: feed,
+        body: dislikeResult,
       };
     } catch (error) {
       return {

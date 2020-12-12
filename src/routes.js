@@ -4,6 +4,7 @@ import createMulterCallback from "./utils/createMulterCallback";
 // ANY USER CONTROLLERS
 import { commentOnPostController } from "./use-cases/any-user/comment-on-post";
 import { createAccountController } from "./use-cases/any-user/create-account";
+import { dislikePostController } from "./use-cases/any-user/dislike-post";
 import { getFeedController } from "./use-cases/any-user/get-feed";
 import { getGenericCsrfTokenController } from "./use-cases/any-user/get-generic-csrf-token";
 import { getSubjectsController } from "./use-cases/any-user/get-subjects";
@@ -76,6 +77,13 @@ routes.post(
   "/editor",
   createExpressCallback(verifyCsrfTokenMiddleware),
   createExpressCallback(createAccountController)
+);
+
+routes.post(
+  "/dislike",
+  createExpressCallback(verifyOptionalAuthTokenMiddleware),
+  createExpressCallback(verifyCsrfTokenMiddleware),
+  createExpressCallback(dislikePostController)
 );
 
 routes.post(
