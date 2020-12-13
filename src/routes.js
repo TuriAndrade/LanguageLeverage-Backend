@@ -6,6 +6,7 @@ import { commentOnPostController } from "./use-cases/any-user/comment-on-post";
 import { createAccountController } from "./use-cases/any-user/create-account";
 import { dislikePostController } from "./use-cases/any-user/dislike-post";
 import { getFeedController } from "./use-cases/any-user/get-feed";
+import { getPublishedArticleController } from "./use-cases/any-user/get-published-article";
 import { getGenericCsrfTokenController } from "./use-cases/any-user/get-generic-csrf-token";
 import { getSubjectsController } from "./use-cases/any-user/get-subjects";
 import { likePostController } from "./use-cases/any-user/like-post";
@@ -90,6 +91,12 @@ routes.post(
   "/get/feed",
   createExpressCallback(verifyOptionalAuthTokenMiddleware),
   createExpressCallback(getFeedController)
+);
+
+routes.post(
+  "/get/published/article/:articleId",
+  createExpressCallback(verifyOptionalAuthTokenMiddleware),
+  createExpressCallback(getPublishedArticleController)
 );
 
 routes.get(
