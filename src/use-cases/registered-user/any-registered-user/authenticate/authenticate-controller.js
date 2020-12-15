@@ -24,6 +24,8 @@ export default function buildAuthenticateController({ authenticate }) {
           name: "authToken",
           data: token,
           options: {
+            sameSite: "None",
+            secure: true,
             httpOnly: true,
             expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000), // one week in miliseconds
           },

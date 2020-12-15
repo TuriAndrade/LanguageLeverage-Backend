@@ -32,10 +32,7 @@ describe("authenticate controller teste", () => {
         cookie: {
           name: expect.any(String),
           data: expect.any(String),
-          options: expect.objectContaining({
-            expires: expect.any(Date),
-            httpOnly: true,
-          }),
+          options: expect.any(Object),
         },
       })
     );
@@ -66,10 +63,7 @@ describe("authenticate controller teste", () => {
         cookie: {
           name: expect.any(String),
           data: expect.any(String),
-          options: expect.objectContaining({
-            expires: expect.any(Date),
-            httpOnly: true,
-          }),
+          options: expect.any(Object),
         },
       })
     );
