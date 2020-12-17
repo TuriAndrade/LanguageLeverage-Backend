@@ -58,6 +58,7 @@ import {
   verifyOptionalAuthTokenMiddleware,
 } from "./middlewares/verify-auth-token";
 import { verifyCsrfTokenMiddleware } from "./middlewares/verify-csrf-token";
+import { verifyUploadPermissionMiddleware } from "./middlewares/verify-upload-permission";
 
 const express = require("express");
 
@@ -195,6 +196,7 @@ routes.post(
   "/upload/file",
   createExpressCallback(verifyAuthTokenMiddleware),
   createExpressCallback(verifyCsrfTokenMiddleware),
+  createExpressCallback(verifyUploadPermissionMiddleware),
   createMulterCallback(multer(multerConfig).single("file")),
   createExpressCallback(uploadFileController)
 );
