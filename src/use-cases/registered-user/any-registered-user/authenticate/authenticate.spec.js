@@ -10,7 +10,7 @@ describe("authenticate test", () => {
   it("should authenticate editor", async () => {
     const loggedUser = await notValidatedEditorLogin();
 
-    const { token, isEditor } = authenticate({
+    const { token, isEditor } = await authenticate({
       userToken: loggedUser.decodedToken,
     });
 
@@ -21,7 +21,7 @@ describe("authenticate test", () => {
   it("should authenticate admin", async () => {
     const loggedUser = await notFullyPermittedAdminLogin();
 
-    const { token, isAdmin } = authenticate({
+    const { token, isAdmin } = await authenticate({
       userToken: loggedUser.decodedToken,
     });
 
@@ -30,6 +30,6 @@ describe("authenticate test", () => {
   });
 
   it("should throw error for invalid user token", async () => {
-    expect(() => authenticate({ userToken: null })).toThrowError();
+    await expect(authenticate({ userToken: null })).rejects.toThrowError();
   });
 });
