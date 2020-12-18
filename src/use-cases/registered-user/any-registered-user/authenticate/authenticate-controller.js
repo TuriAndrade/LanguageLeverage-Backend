@@ -8,7 +8,7 @@ export default function buildAuthenticateController({ authenticate }) {
         isEditor,
         isValidated,
         hasFullPermission,
-      } = authenticate({ userToken });
+      } = await authenticate({ userToken });
       return {
         headers: {
           "Content-Type": "application/json",
