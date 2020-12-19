@@ -1,9 +1,8 @@
 import buildGetSubjects from "./get-subjects";
 import buildGetSubjectsController from "./get-subjects-controller";
 import { Subject } from "../../../database/models";
-import { Op } from "sequelize";
 
-const getSubjects = buildGetSubjects({ Subject, Op });
+const getSubjects = buildGetSubjects({ Subject });
 
 const getSubjectsController = buildGetSubjectsController({ getSubjects });
 
