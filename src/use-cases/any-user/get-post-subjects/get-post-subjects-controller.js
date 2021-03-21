@@ -1,18 +1,14 @@
-export default function buildGetPublishedArticleController({
-  getPublishedArticle,
-}) {
-  return async function getPublishedArticleController(httpRequest) {
+export default function buildGetPostSubjectsController({ getPostSubjects }) {
+  return async function getPostSubjectsController(httpRequest) {
     try {
       const { articleId } = httpRequest.params;
-      const article = await getPublishedArticle({
-        articleId,
-      });
+      const subjects = await getPostSubjects({ articleId });
       return {
         headers: {
           "Content-Type": "application/json",
         },
         statusCode: 200,
-        body: article,
+        body: subjects,
       };
     } catch (error) {
       return {

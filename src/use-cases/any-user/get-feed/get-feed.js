@@ -1,19 +1,5 @@
-export default function buildGetFeed({
-  Article,
-  Subject,
-  Editor,
-  User,
-  Like,
-  Comment,
-  sequelize,
-}) {
-  return async function getFeed({
-    subjects,
-    offset = 0,
-    limit = 10,
-    userToken,
-    email,
-  }) {
+export default function buildGetFeed({ sequelize }) {
+  return async function getFeed({ subjects, offset = 0, limit = 10 }) {
     if (subjects && !Array.isArray(subjects)) {
       throw new Error("Invalid type for subjects!");
     }
@@ -22,36 +8,22 @@ export default function buildGetFeed({
       throw new Error("Invalid type for offset!");
     }
 
-    if (offset && typeof limit !== "number") {
+    if (limit && typeof limit !== "number") {
       throw new Error("Invalid type for limit!");
     }
 
-    let user = null;
-
-    if (userToken) {
-      user = await User.findOne({
-        where: {
-          id: userToken.userId,
-        },
-      });
-
-      if (!user) {
-        throw new Error("No user found with this id!");
-      }
-    }
-
-    let filteredArticles, rowsInfo;
+    let articles, rowsInfo;
 
     if (subjects && subjects.length > 0) {
-      [filteredArticles, rowsInfo] = await sequelize.query(
-        "SELECT DISTINCT articles.id, articles.created_at FROM articles JOIN subjects ON articles.id = subjects.article_id WHERE articles.is_published = TRUE AND subjects.subject IN(:subjects) ORDER BY articles.created_at DESC LIMIT :limit OFFSET :offset",
+      [articles, rowsInfo] = await sequelize.query(
+        "SELECT DISTINCT articles.id, articles.title, articles.html, articles.cover, articles.created_at, users.login as editor_login, users.picture as editor_picture FROM articles JOIN subjects ON articles.id = subjects.article_id JOIN editors ON articles.editor_id = editors.id JOIN users ON editors.user_id = users.id WHERE articles.is_published = TRUE AND subjects.subject IN(:subjects) ORDER BY articles.created_at DESC LIMIT :limit OFFSET :offset",
         {
           replacements: { subjects, limit, offset },
         }
       );
     } else {
-      [filteredArticles, rowsInfo] = await sequelize.query(
-        "SELECT articles.id FROM articles WHERE is_published = TRUE ORDER BY created_at DESC LIMIT :limit OFFSET :offset",
+      [articles, rowsInfo] = await sequelize.query(
+        "SELECT articles.id, articles.title, articles.html, articles.cover, articles.created_at, users.login as editor_login, users.picture as editor_picture FROM articles JOIN editors ON articles.editor_id = editors.id JOIN users ON editors.user_id = users.id WHERE is_published = TRUE ORDER BY created_at DESC LIMIT :limit OFFSET :offset",
         {
           replacements: { limit, offset },
         }
@@ -62,84 +34,6 @@ export default function buildGetFeed({
       Limit does't work well with sequelize includes, so I'm using raw queries
     */
 
-    const articles = await Promise.all(
-      filteredArticles.map((article) => {
-        return Article.findOne({
-          where: {
-            id: article.id,
-          },
-          include: [
-            { model: Subject },
-            { model: Like },
-            {
-              model: Editor,
-              include: { model: User, attributes: ["picture", "login"] },
-            },
-          ],
-        }).then((article) => {
-          if (userToken) {
-            return Like.findOne({
-              where: {
-                articleId: article.id,
-                email: user.email,
-              },
-            }).then((like) => {
-              return {
-                ...article.dataValues,
-                isLiked: !!like,
-              };
-            });
-          } else if (email) {
-            return Like.findOne({
-              where: {
-                articleId: article.id,
-                email: email,
-              },
-            }).then((like) => {
-              return {
-                ...article.dataValues,
-                isLiked: !!like,
-              };
-            });
-          } else {
-            return {
-              ...article.dataValues,
-              isLiked: false,
-            };
-          }
-        });
-      })
-    );
-
-    const articlesWithComments = await Promise.all(
-      articles.map((article) => {
-        return Comment.findAll({
-          order: [["createdAt", "ASC"]],
-          where: {
-            articleId: article.id,
-            replyTo: null,
-          },
-        }).then((comments) => {
-          return Promise.all(
-            comments.map((comment) => {
-              return Comment.findAll({
-                order: [["createdAt", "ASC"]],
-                where: {
-                  replyTo: comment.id,
-                },
-              }).then((replies) => ({
-                ...comment.dataValues,
-                replies,
-              }));
-            })
-          ).then((commentsWithReplies) => ({
-            ...article,
-            Comments: commentsWithReplies,
-          }));
-        });
-      })
-    );
-
-    return { articles: articlesWithComments };
+    return { articles };
   };
 }

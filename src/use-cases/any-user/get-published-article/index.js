@@ -1,21 +1,11 @@
 import buildGetPublishedArticle from "./get-published-article";
 import buildGetPublishedArticleController from "./get-published-article-controller";
-import {
-  Editor,
-  Article,
-  Subject,
-  Comment,
-  User,
-  Like,
-} from "../../../database/models";
+import { Article, Editor, User } from "../../../database/models";
 
 const getPublishedArticle = buildGetPublishedArticle({
-  Editor,
   Article,
-  Subject,
-  Comment,
+  Editor,
   User,
-  Like,
 });
 
 const getPublishedArticleController = buildGetPublishedArticleController({

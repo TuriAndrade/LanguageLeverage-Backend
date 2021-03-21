@@ -1,10 +1,10 @@
-export default function buildGetPublishedArticleController({
-  getPublishedArticle,
+export default function buildGetCommentsNumberController({
+  getCommentsNumber,
 }) {
-  return async function getPublishedArticleController(httpRequest) {
+  return async function getCommentsNumberController(httpRequest) {
     try {
       const { articleId } = httpRequest.params;
-      const article = await getPublishedArticle({
+      const nComments = await getCommentsNumber({
         articleId,
       });
       return {
@@ -12,7 +12,7 @@ export default function buildGetPublishedArticleController({
           "Content-Type": "application/json",
         },
         statusCode: 200,
-        body: article,
+        body: nComments,
       };
     } catch (error) {
       return {

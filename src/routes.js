@@ -5,9 +5,14 @@ import createMulterCallback from "./utils/createMulterCallback";
 import { commentOnPostController } from "./use-cases/any-user/comment-on-post";
 import { createAccountController } from "./use-cases/any-user/create-account";
 import { dislikePostController } from "./use-cases/any-user/dislike-post";
+import { getCommentsController } from "./use-cases/any-user/get-comments";
+import { getCommentsNumberController } from "./use-cases/any-user/get-comments-number";
 import { getFeedController } from "./use-cases/any-user/get-feed";
-import { getPublishedArticleController } from "./use-cases/any-user/get-published-article";
 import { getGenericCsrfTokenController } from "./use-cases/any-user/get-generic-csrf-token";
+import { getLikesController } from "./use-cases/any-user/get-likes";
+import { getPostSubjectsController } from "./use-cases/any-user/get-post-subjects";
+import { getPublishedArticleController } from "./use-cases/any-user/get-published-article";
+import { getRepliesController } from "./use-cases/any-user/get-replies";
 import { getSubjectsController } from "./use-cases/any-user/get-subjects";
 import { likePostController } from "./use-cases/any-user/like-post";
 import { subscribeToNewsletterController } from "./use-cases/any-user/subscribe-to-newsletter";
@@ -59,6 +64,7 @@ import {
 } from "./middlewares/verify-auth-token";
 import { verifyCsrfTokenMiddleware } from "./middlewares/verify-csrf-token";
 import { verifyUploadPermissionMiddleware } from "./middlewares/verify-upload-permission";
+import { handleFileMiddleware } from "./middlewares/handle-file";
 
 const express = require("express");
 
@@ -89,20 +95,45 @@ routes.post(
 );
 
 routes.post(
+  "/get/comments/:articleId",
+  createExpressCallback(getCommentsController)
+);
+
+routes.get(
+  "/comments/number/:articleId",
+  createExpressCallback(getCommentsNumberController)
+);
+
+routes.post(
   "/get/feed",
   createExpressCallback(verifyOptionalAuthTokenMiddleware),
   createExpressCallback(getFeedController)
 );
 
-routes.post(
-  "/get/published/article/:articleId",
-  createExpressCallback(verifyOptionalAuthTokenMiddleware),
-  createExpressCallback(getPublishedArticleController)
-);
-
 routes.get(
   "/generic/csrf/token",
   createExpressCallback(getGenericCsrfTokenController)
+);
+
+routes.post(
+  "/get/likes/:articleId",
+  createExpressCallback(verifyOptionalAuthTokenMiddleware),
+  createExpressCallback(getLikesController)
+);
+
+routes.get(
+  "/article/subjects/:articleId",
+  createExpressCallback(getPostSubjectsController)
+);
+
+routes.get(
+  "/published/article/:articleId",
+  createExpressCallback(getPublishedArticleController)
+);
+
+routes.post(
+  "/get/replies/:commentId",
+  createExpressCallback(getRepliesController)
 );
 
 routes.post("/get/subjects", createExpressCallback(getSubjectsController));
@@ -198,6 +229,7 @@ routes.post(
   createExpressCallback(verifyCsrfTokenMiddleware),
   createExpressCallback(verifyUploadPermissionMiddleware),
   createMulterCallback(multer(multerConfig).single("file")),
+  createExpressCallback(handleFileMiddleware),
   createExpressCallback(uploadFileController)
 );
 

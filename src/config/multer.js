@@ -7,7 +7,7 @@ const multerS3 = require("multer-s3");
 const storageOptions = {
   local: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.resolve(__dirname, "..", "..", "tmp", "uploads"));
+      cb(null, path.resolve("tmp", "uploads"));
     },
     filename: (req, file, cb) => {
       crypto.randomBytes(16, (err, hash) => {
@@ -42,30 +42,31 @@ const storageOptions = {
       });
     },
   }),
+
+  memory: multer.memoryStorage(),
 };
 
 module.exports = {
   dest: path.resolve(__dirname, "..", "..", "tmp", "uploads"),
-  storage: storageOptions[process.env.FILE_STORAGE_TYPE],
+  // storage: storageOptions[process.env.FILE_STORAGE_TYPE],
+  storage: storageOptions.memory,
   limits: {
     fileSize: 1024 * 1024 * 5,
   },
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
       "image/jpeg",
-      "image/pjpeg",
       "image/png",
       "image/gif",
+      "image/webp",
       "video/mp4",
       "video/mpeg",
       "video/avi",
-      "video/mkv",
+      "video/webm",
       "audio/mp3",
       "audio/mpeg",
       "audio/opus",
       "audio/m4a",
-      "image/webp",
-      "video/webm",
       "audio/webm",
     ];
 
